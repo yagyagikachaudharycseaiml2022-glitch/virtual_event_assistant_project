@@ -1,0 +1,47 @@
+{
+  "venue_id": "pragati-maidan-1",
+  "name": "Pragati Maidan (sample)",
+  "nodes": [
+    {
+      "id": "gate-1",
+      "label": "Gate 1",
+      "x": 50,
+      "y": 50
+    },
+    {
+      "id": "gate-3",
+      "label": "Gate 3",
+      "x": 50,
+      "y": 300
+    },
+    {
+      "id": "node-101",
+      "label": "Corridor A",
+      "x": 250,
+      "y": 180
+    },
+    {
+      "id": "hall-5",
+      "label": "Hall 5",
+      "x": 450,
+      "y": 180
+    }
+  ],
+  "edges": [
+    {
+      "from": "gate-1",
+      "to": "node-101",
+      "distance_m": 50
+    },
+    {
+      "from": "gate-3",
+      "to": "node-101",
+      "distance_m": 30
+    },
+    {
+      "from": "node-101",
+      "to": "hall-5",
+      "distance_m": 220
+    }
+  ]
+}

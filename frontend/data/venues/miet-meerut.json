@@ -1,0 +1,32 @@
+{
+  "venue_name": "MIET Meerut",
+  "description": "Mock layout of MIET Meerut campus for training",
+  "nodes": [
+    {"id": "Main Gate", "type": "gate", "zone": "North", "coords": {"x": 50, "y": 50}},
+    {"id": "Admin Building", "type": "office", "zone": "North-East", "coords": {"x": 200, "y": 80}},
+    {"id": "Academic Block A", "type": "hall", "zone": "East", "coords": {"x": 350, "y": 120}},
+    {"id": "Academic Block B", "type": "hall", "zone": "East", "coords": {"x": 350, "y": 250}},
+    {"id": "Library", "type": "hall", "zone": "Centre", "coords": {"x": 250, "y": 200}},
+    {"id": "Cafeteria", "type": "food", "zone": "Centre", "coords": {"x": 250, "y": 350}},
+    {"id": "Lecture Hall 1", "type": "hall", "zone": "South-East", "coords": {"x": 450, "y": 320}},
+    {"id": "Lecture Hall 2", "type": "hall", "zone": "South", "coords": {"x": 300, "y": 450}},
+    {"id": "Hostel", "type": "residential", "zone": "South-West", "coords": {"x": 100, "y": 450}},
+    {"id": "Parking", "type": "amenity", "zone": "West", "coords": {"x": 80, "y": 300}},
+    {"id": "Restroom 1", "type": "restroom", "zone": "Centre", "coords": {"x": 220, "y": 300}},
+    {"id": "Restroom 2", "type": "restroom", "zone": "East", "coords": {"x": 400, "y": 200}}
+  ],
+  "edges": [
+    {"from": "Main Gate", "to": "Admin Building", "distance": 150},
+    {"from": "Admin Building", "to": "Academic Block A", "distance": 120},
+    {"from": "Academic Block A", "to": "Library", "distance": 100},
+    {"from": "Library", "to": "Academic Block B", "distance": 90},
+    {"from": "Library", "to": "Cafeteria", "distance": 120},
+    {"from": "Cafeteria", "to": "Lecture Hall 1", "distance": 110},
+    {"from": "Lecture Hall 1", "to": "Lecture Hall 2", "distance": 140},
+    {"from": "Lecture Hall 2", "to": "Hostel", "distance": 160},
+    {"from": "Hostel", "to": "Parking", "distance": 200},
+    {"from": "Parking", "to": "Main Gate", "distance": 120},
+    {"from": "Restroom 1", "to": "Library", "distance": 50},
+    {"from": "Restroom 2", "to": "Academic Block A", "distance": 60}
+  ]
+}

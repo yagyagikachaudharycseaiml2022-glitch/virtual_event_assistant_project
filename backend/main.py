@@ -18,7 +18,11 @@ import uvicorn
 # Try to import the FastAPI app defined in backend/app.py
 try:
     # backend.app defines `app = FastAPI(...)`
-    from backend.app import app as backend_app  # type: ignore
+    from navigation import build_graph, dijkstra
+    from nlp import parse_origin_destination
+    from database import SessionLocal, engine, Base
+    import crud, qr_gen
+  # type: ignore
 except Exception as e:
     raise RuntimeError("Failed to import backend.app. Make sure you're running from the project root and dependencies are installed. Import error: {}".format(e))
 

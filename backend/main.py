@@ -11,35 +11,73 @@ frontend and backend endpoints remain available under their paths (e.g., /naviga
 """
 
 from pathlib import Path
-import sys
-from fastapi.staticfiles import StaticFiles
 import uvicorn
+from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, HTTPException, UploadFile, File, Depends
+from sqlalchemy.orm import Session
+from pydantic import BaseModel
+from database import SessionLocal, engine, Base
+import crud, qr_gen
+from navigation import build_graph, dijkstra
+from nlp import parse_origin_destination
 
-# Try to import the FastAPI app defined in backend/app.py
-try:
-    # backend.app defines `app = FastAPI(...)`
-    from navigation import build_graph, dijkstra
-    from nlp import parse_origin_destination
-    from database import SessionLocal, engine, Base
-    import crud, qr_gen
-  # type: ignore
-except Exception as e:
-    raise RuntimeError("Failed to import backend.app. Make sure you're running from the project root and dependencies are installed. Import error: {}".format(e))
+# Initialize database
+Base.metadata.create_all(bind=engine)
 
-app = backend_app
+# Create FastAPI app
+app = FastAPI(title="Virtual Event Assistant Backend")
 
-# Mount the frontend static files at root (if present)
-frontend_dir = Path(__file__).parent / "frontend"
+# Dependency to get database session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+# ✅ Root route
+@app.get("/")
+def read_root():
+    return {"message": "Backend is running successfully on Render 🚀"}
+
+# ✅ Route: Generate QR code
+@app.post("/generate-qr/")
+async def generate_qr(data: dict):
+    try:
+        qr_path = qr_gen.generate_qr(data)
+        return {"qr_code_path": qr_path}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ✅ Route: Shortest path
+@app.post("/shortest-path/")
+async def find_shortest_path(request: dict):
+    try:
+        graph = build_graph()
+        origin = request.get("origin")
+        destination = request.get("destination")
+        distance, path = dijkstra(graph, origin, destination)
+        return {"distance": distance, "path": path}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+# ✅ Route: NLP Parse
+@app.post("/parse/")
+async def parse_query(query: dict):
+    try:
+        text = query.get("text")
+        origin, destination = parse_origin_destination(text)
+        return {"origin": origin, "destination": destination}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+# ✅ Mount frontend (if exists)
+frontend_dir = Path(__file__).parent / "../frontend/build"
 if frontend_dir.exists() and frontend_dir.is_dir():
     app.mount("/", StaticFiles(directory=str(frontend_dir), html=True), name="frontend")
 else:
-    print("Warning: frontend directory not found. The backend will still run but no static UI will be served.")
+    print("⚠️  Frontend directory not found — backend will run without UI")
 
-
-if __name__ == '__main__':
-    # Run uvicorn programmatically
+# ✅ For local run
+if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
-
-# Open in browser automatically
-    import webbrowser
-    webbrowser.open("http://127.0.0.1:8000/")

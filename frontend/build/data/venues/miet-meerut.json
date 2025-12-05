@@ -1,0 +1,72 @@
+{
+  "venue_name": "MIET Meerut - Sample",
+  "nodes": [
+    {
+      "id": "Main Gate",
+      "x": 80,
+      "y": 80
+    },
+    {
+      "id": "Admin Building",
+      "x": 200,
+      "y": 100
+    },
+    {
+      "id": "Academic Block A",
+      "x": 350,
+      "y": 130
+    },
+    {
+      "id": "Library",
+      "x": 260,
+      "y": 220
+    },
+    {
+      "id": "Cafeteria",
+      "x": 260,
+      "y": 340
+    },
+    {
+      "id": "Lecture Hall 2",
+      "x": 320,
+      "y": 360
+    },
+    {
+      "id": "Hostel",
+      "x": 80,
+      "y": 360
+    }
+  ],
+  "edges": [
+    {
+      "from": "Main Gate",
+      "to": "Admin Building",
+      "distance": 150
+    },
+    {
+      "from": "Admin Building",
+      "to": "Academic Block A",
+      "distance": 120
+    },
+    {
+      "from": "Academic Block A",
+      "to": "Library",
+      "distance": 100
+    },
+    {
+      "from": "Library",
+      "to": "Cafeteria",
+      "distance": 120
+    },
+    {
+      "from": "Cafeteria",
+      "to": "Lecture Hall 2",
+      "distance": 90
+    },
+    {
+      "from": "Lecture Hall 2",
+      "to": "Hostel",
+      "distance": 200
+    }
+  ]
+}
